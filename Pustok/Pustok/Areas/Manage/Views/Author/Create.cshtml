@@ -1,0 +1,75 @@
+﻿@model Author
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Manage/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <form method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="@Model.FullName">Full name</label>
+            <input type="text" asp-for="@Model.FullName" class="form-control" id="FullName" placeholder="Full name">
+            <span asp-validation-for="@Model.FullName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.Desc">Desc</label>
+            <textarea asp-for="@Model.Desc" class="form-control" id="Desc" rows="3"></textarea>
+            <span asp-validation-for="@Model.Desc" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="@Model.PhotoFile">Photo</label>
+            <input asp-for="@Model.PhotoFile" />
+            <span asp-validation-for="@Model.PhotoFile" class="text-danger"></span>
+        </div>
+
+        <div class="form-row" id="features">
+            <div class="form-group">
+                <label for="featureName">Feature name</label>
+                <input name="AuthorFeatures[0].Name" type="text" />
+                <span class="text-danger"></span>
+
+                <label for="featureValue"> Feature value</label>
+                <input name="AuthorFeatures[0].Value" type="text" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row justify-content-center">
+            <div class="form-group">
+                <button data-nextIndex="1" class="add-feature btn btn-primary">+</button>
+            </div>
+        </div>
+
+        <button type="submit"  class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+
+@section  Scripts{ 
+<script>
+    $(document).ready(function () {
+        $(document).on("click", ".add-feature", function (e) {
+            e.preventDefault();
+
+            var nextIndex = $(this).attr("data-nextIndex");
+
+            var inputGroup = ` <div class="form-group" data-index="0">
+                <label for="featureName">Feature name</label>
+                <input name="AuthorFeatures[`+ nextIndex+`].Name" type="text" />
+                <span class="text-danger"></span>
+
+                <label for="featureValue"> Feature value</label>
+                <input name="AuthorFeatures[`+ nextIndex+`].Value" type="text" />
+                <span class="text-danger"></span>
+            </div>`
+
+            $("#features").append($(inputGroup))
+
+            nextIndex = +nextIndex + 1;
+            console.log(nextIndex)
+
+            $(this).attr("data-nextIndex", nextIndex)
+        })
+    })
+</script>
+}
+   
